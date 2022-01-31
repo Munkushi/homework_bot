@@ -86,7 +86,7 @@ def main():
     logger.addHandler(handler)
 
     bot = Bot(token=TELEGRAM_TOKEN)
-    current_timestamp = 1643477528
+    current_timestamp = int(time.time())
     while True:
         try:
             response = get_api_answer(current_timestamp)
