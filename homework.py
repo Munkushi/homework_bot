@@ -8,9 +8,6 @@ import requests
 from dotenv import load_dotenv
 from telegram import Bot
 
-logger = logging.getLogger(__name__)
-handler = RotatingFileHandler("my_logger.log", maxBytes=50000000, backupCount=5)
-logger.addHandler(handler)
 logging.basicConfig(
     level=logging.DEBUG,
     filename="main.log",
@@ -75,12 +72,10 @@ def check_tokens() -> bool:
     """Провека env-файла."""
 
     check_file = os.path.exists(".env")
-    return (
-            check_file
+    return (check_file
             and PRACTICUM_TOKEN
             and TELEGRAM_TOKEN
-            and TELEGRAM_CHAT_ID
-    )
+            and TELEGRAM_CHAT_ID)
 
 
 def main():
