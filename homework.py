@@ -32,16 +32,12 @@ HOMEWORK_STATUSES = {
 
 
 def send_message(bot, message):
-    """
-    Отправка сообщений.
-    """
+    """Отправка сообщений."""
     return bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
 
 
 def get_api_answer(current_timestamp):
-    """
-    Ответ апи.
-    """
+    """Ответ апи."""
     timestamp = current_timestamp or int(time.time())
     params = {"from_date": timestamp}
     response = requests.get(ENDPOINT, headers=HEADERS, params=params)
@@ -51,9 +47,7 @@ def get_api_answer(current_timestamp):
 
 
 def check_response(response):
-    """
-    Ретернит список домашних работ.
-    """
+    """Ретернит список домашних работ."""
     homework = response["homeworks"]
     if type(homework) != list:
         raise
@@ -61,9 +55,7 @@ def check_response(response):
 
 
 def parse_status(homework):
-    """
-    Статус дз.
-    """
+    """Статус дз."""
     homework_name = homework["homework_name"]
     homework_status = homework["status"]
     verdict = HOMEWORK_STATUSES[homework_status]
@@ -71,9 +63,7 @@ def parse_status(homework):
 
 
 def check_tokens() -> bool:
-    """
-    Провека env-файла.
-    """
+    """Провека env-файла."""
     check_file = os.path.exists(".env")
     return (check_file
             and PRACTICUM_TOKEN
@@ -82,9 +72,7 @@ def check_tokens() -> bool:
 
 
 def main():
-    """
-    Основная логика работы бота.
-    """
+    """Основная логика работы бота."""
     logger = logging.getLogger(__name__)
     handler = RotatingFileHandler(
         "my_logger.log",
