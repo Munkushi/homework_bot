@@ -74,6 +74,7 @@ def check_tokens() -> bool:
         return False
     return True
 
+
 def main():
     """Основная логика работы бота."""
     logger = logging.getLogger(__name__)
