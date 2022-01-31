@@ -14,7 +14,7 @@ logger.addHandler(handler)
 logging.basicConfig(
     level=logging.DEBUG,
     filename="main.log",
-    format="%(asctime)s, %(levelname)s, %(message)s, %(name)s"
+    format="%(asctime)s, %(levelname)s, %(message)s, %(name)s",
 )
 
 load_dotenv()
@@ -25,12 +25,12 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 # RETRY_TIME = 600
 RETRY_TIME = 10
-ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
-HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
+ENDPOINT = "https://practicum.yandex.ru/api/user_api/homework_statuses/"
+HEADERS = {"Authorization": f"OAuth {PRACTICUM_TOKEN}"}
 HOMEWORK_STATUSES = {
     "approved": "Работа проверена: ревьюеру всё понравилось. Ура!",
     "reviewing": "Работа взята на проверку ревьюером.",
-    "rejected": "Работа проверена: у ревьюера есть замечания."
+    "rejected": "Работа проверена: у ревьюера есть замечания.",
 }
 
 
@@ -47,7 +47,7 @@ def get_api_answer(current_timestamp):
     """
 
     timestamp = current_timestamp or int(time.time())
-    params = {'from_date': timestamp}
+    params = {"from_date": timestamp}
     response = requests.get(ENDPOINT, headers=HEADERS, params=params)
     if response.status_code != 200:
         raise
@@ -80,12 +80,7 @@ def check_tokens() -> bool:
     """
 
     check_file = os.path.exists(".env")
-    return (
-            check_file and
-            PRACTICUM_TOKEN and
-            TELEGRAM_TOKEN and
-            TELEGRAM_CHAT_ID
-    )
+    return check_file and PRACTICUM_TOKEN and TELEGRAM_TOKEN and TELEGRAM_CHAT_ID
 
 
 def main():
@@ -109,15 +104,14 @@ def main():
                 send_message(bot, parse_status(сheck_response_1[0]))
             current_timestamp = response.get("current_date")
             time.sleep(RETRY_TIME)
-
         except Exception as error:
             logging.exception(f"У бота случилась какая-то ошибка {error}")
-            message = f'Сбой в работе программы: {error}'
+            message = f"Сбой в работе программы: {error}"
             print(message)
             time.sleep(RETRY_TIME)
         else:
             logging.error("Ошибка при запросе к основному API")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
