@@ -72,13 +72,7 @@ def check_tokens() -> bool:
             or TELEGRAM_CHAT_ID is None
     ):
         return False
-    return (
-        check_file
-        and PRACTICUM_TOKEN
-        and TELEGRAM_TOKEN
-        and TELEGRAM_CHAT_ID
-    )
-
+    return True
 
 def main():
     """Основная логика работы бота."""
