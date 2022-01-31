@@ -38,6 +38,7 @@ def send_message(bot, message):
     """
     Отправка сообщений.
     """
+
     return bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
 
 
@@ -58,6 +59,7 @@ def check_response(response):
     """
     Ретернит список домашних работ.
     """
+
     homework = response["homeworks"]
     if type(homework) != list:
         raise
@@ -68,6 +70,7 @@ def parse_status(homework):
     """
     Статус дз.
     """
+
     homework_name = homework["homework_name"]
     homework_status = homework["status"]
     verdict = HOMEWORK_STATUSES[homework_status]
@@ -76,11 +79,16 @@ def parse_status(homework):
 
 def check_tokens() -> bool:
     """
-    Провека env-файла и его внутренностей.
+    Провека env-файла.
     """
 
     check_file = os.path.exists(".env")
-    return check_file and PRACTICUM_TOKEN and TELEGRAM_TOKEN and TELEGRAM_CHAT_ID
+    return (
+            check_file
+            and PRACTICUM_TOKEN
+            and TELEGRAM_TOKEN
+            and TELEGRAM_CHAT_ID
+    )
 
 
 def main():
