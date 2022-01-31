@@ -71,7 +71,8 @@ def check_tokens() -> bool:
             or TELEGRAM_CHAT_ID is None
     ):
         return False
-    return True
+    else:
+        return True
 
 
 def main():
