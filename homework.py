@@ -73,10 +73,10 @@ def check_tokens() -> bool:
     ):
         return False
     return (
-            check_file
-            and PRACTICUM_TOKEN
-            and TELEGRAM_TOKEN
-            and TELEGRAM_CHAT_ID
+        check_file
+        and PRACTICUM_TOKEN
+        and TELEGRAM_TOKEN
+        and TELEGRAM_CHAT_ID
     )
 
 
