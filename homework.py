@@ -65,10 +65,12 @@ def parse_status(homework):
 def check_tokens() -> bool:
     """Провека env-файла."""
     check_file = os.path.exists(".env")
-    return (check_file
-            and PRACTICUM_TOKEN
-            and TELEGRAM_TOKEN
-            and TELEGRAM_CHAT_ID)
+    return (
+            check_file
+            and PRACTICUM_TOKEN == True
+            and TELEGRAM_TOKEN == True
+            and TELEGRAM_CHAT_ID == True
+    )
 
 
 def main():
