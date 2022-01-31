@@ -20,8 +20,7 @@ PRACTICUM_TOKEN = os.getenv("PRACTICUM_TOKEN")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-# RETRY_TIME = 600
-RETRY_TIME = 10
+RETRY_TIME = 600
 ENDPOINT = "https://practicum.yandex.ru/api/user_api/homework_statuses/"
 HEADERS = {"Authorization": f"OAuth {PRACTICUM_TOKEN}"}
 HOMEWORK_STATUSES = {
@@ -86,7 +85,7 @@ def main():
     logger.addHandler(handler)
 
     bot = Bot(token=TELEGRAM_TOKEN)
-    current_timestamp = int(time.time())
+    current_timestamp = 1643477528
     while True:
         try:
             response = get_api_answer(current_timestamp)
