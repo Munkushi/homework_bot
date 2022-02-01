@@ -42,12 +42,14 @@ def logg():
 
 
 class StatusError(Exception):
-    """ошибка для прроверки статуса"""
+    """ошибка для проверки статуса."""
+
     pass
 
 
 class EmtpyHomeworkError(Exception):
     """список дз не пустой."""
+
     pass
 
 
@@ -97,7 +99,7 @@ def check_tokens() -> bool:
             or TELEGRAM_TOKEN is None
             or TELEGRAM_CHAT_ID is None
     ):
-        logging.exception(f"Отстутствует переменная.")
+        logging.exception("Отстутствует переменная.")
         return False
 
     return True
