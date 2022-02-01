@@ -31,9 +31,7 @@ HOMEWORK_STATUSES = {
 
 
 def logg():
-    """
-    функция логов.
-    """
+    """функция логов."""
     logger = logging.getLogger(__name__)
     handler = RotatingFileHandler(
         "my_logger.log",
@@ -44,16 +42,12 @@ def logg():
 
 
 class StatusError(Exception):
-    """
-    ошибка для прроверки статуса
-    """
+    """ошибка для прроверки статуса"""
     pass
 
 
 class EmtpyHomeworkError(Exception):
-    """
-    список дз не пустой.
-    """
+    """список дз не пустой."""
     pass
 
 
