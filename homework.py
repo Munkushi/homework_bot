@@ -67,8 +67,8 @@ def get_api_answer(current_timestamp):
         error = "Бот не получил ответ API."
         logging.error(error)
     if response.status_code != 200:
-        logging.exception(f"Статус ответа не равен 200. Statuc code = {response.status_code}.")
-        raise StatusError(f"Статус ответа не равен 200. Statuc code = {response.status_code}.")
+        logging.exception(f"Status code={response.status_code}!=200.")
+        raise StatusError(f"Status code={response.status_code}!=200.")
     return response.json()
 
 
