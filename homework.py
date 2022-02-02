@@ -1,5 +1,4 @@
 import logging
-import os
 import os.path
 import time
 from logging.handlers import RotatingFileHandler
@@ -62,30 +61,37 @@ def get_api_answer(current_timestamp):
     """Ответ апи."""
     timestamp = current_timestamp or int(time.time())
     params = {"from_date": timestamp}
-    response = requests.get(ENDPOINT, headers=HEADERS, params=params)
+    try:
+        response = requests.get(ENDPOINT, headers=HEADERS, params=params)
+    except Exception as error:
+        error = "Бот не получил ответ API."
+        logging.error(error)
     if response.status_code != 200:
-        logging.exception("Статус ответа не равен 200.")
-        raise StatusError("Статус ответа не равен 200.")
+        logging.exception(f"Статус ответа не равен 200. Statuc code = {response.status_code}.")
+        raise StatusError(f"Статус ответа не равен 200. Statuc code = {response.status_code}.")
     return response.json()
 
 
 def check_response(response):
     """Ретернит список домашних работ."""
     homework = response["homeworks"]
-    if len(homework) == 0:
-        logging.exception("В ответе пустой список.")
-        raise EmtpyHomeworkError("Список дз пустой.")
     if type(homework) != list:
         logging.exception("Тип homework = list. Или список дз пустой.")
         raise StatusError("Тип homework = list.")
+    homework = response["homeworks"]
+    if len(homework) == 0:
+        logging.exception("В ответе пустой список.")
+        raise EmtpyHomeworkError("Список дз пустой.")
     else:
         return homework
 
 
 def parse_status(homework):
     """Статус дз."""
-    if "status" not in homework.keys():
-        raise EmtpyHomeworkError("В словаре нет таких ключей")
+    if "status" not in homework:
+        raise EmtpyHomeworkError("В словаре нет ключа status.")
+    if homework["homework_name"] is None:
+        raise EmtpyHomeworkError("В словаре нет ключа homework_name.")
     homework_name = homework["homework_name"]
     homework_status = homework["status"]
     verdict = HOMEWORK_STATUSES[homework_status]
@@ -115,16 +121,19 @@ def main():
             response = get_api_answer(current_timestamp)
             logging.debug("Первый запрос к API.")
             new_hw = response.get("homeworks")
-            if new_hw:
-                logging.info("Работа найдена. Все хорошо.")
-                send_message(bot, parse_status(new_hw[0]))
             current_timestamp = response.get("current_date")
+            if new_hw:
+                logging.info("Работы найдена. Все хорошо.")
+                send_message(bot, parse_status(new_hw[0]))
+            else:
+                logging.exception("Бот не нашел работу..")
+                raise EmtpyHomeworkError("Работы не найдены.")
         except Exception as error:
             logging.exception(f"У бота случилась какая-то ошибка {error}")
+
         finally:
             time.sleep(int(TELEGRAM_RETRY_TIME))
 
 
-if __name__ == "__main__":
-    if check_tokens() is True:
-        main()
+if __name__ == "__main__" and check_tokens() is True:
+    main()
